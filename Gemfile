@@ -55,6 +55,7 @@ group :test do
   gem 'shoulda', '~> 3.5.0'
   gem 'factory_girl_rails', '~> 4.7.0'
   gem 'database_cleaner'
+  gem 'simplecov'
 end
 
 group :development do
