@@ -1,0 +1,4 @@
+%nav.my-2.my-md-0.mr-md-3
+  %span.p-2.text-light= "Welcome #{session[:user_email]}"
+  = link_to 'Share a movie','#', { class: "p-2 ml-4 btn btn-primary" } 
+  = link_to 'Logout', 'logout_path', { class: "p-2 ml-4 btn btn-danger" } 
