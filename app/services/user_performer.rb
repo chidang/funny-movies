@@ -1,10 +1,10 @@
 class UserPerformer
-  attr_accessor :logged_in_data, :errors
+  attr_accessor :logged_in_data, :messages
 
   def initialize(params)
     @params = params
     @logged_in_data = {}
-    @errors = {}
+    @messages = {}
   end
 
   def perform
@@ -14,7 +14,7 @@ class UserPerformer
     else
       create_and_login
     end
-    [logged_in_data, errors]
+    [logged_in_data, messages]
   end
 
   private
@@ -23,7 +23,7 @@ class UserPerformer
     if user.try(:authenticate, @params[:password])
       set_logged_in_data(user)
     else
-      errors[:error] = 'Wrong password. Please try again.'
+      messages[:danger] = 'Wrong password. Please try again.'
     end
   end
 
@@ -32,11 +32,12 @@ class UserPerformer
     if user.save
       set_logged_in_data(user)
     else
-      errors[:error] = user.errors.to_a.join(', ')
+      messages[:danger] = user.errors.to_a.join(', ')
     end
   end
 
   def set_logged_in_data(user)
     logged_in_data[:user_email] = user.email
+    logged_in_data[:user_id] = user.id
   end
 end
