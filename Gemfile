@@ -59,6 +59,10 @@ group :test do
   gem 'database_cleaner'
   gem 'simplecov'
   gem 'rails-controller-testing'
+  # Capybara, the library that allows us to interact with the browser using Ruby
+  gem 'capybara'
+  # This gem helps Capybara interact with the web browser.
+  gem 'webdrivers'
 end
 
 group :development do
