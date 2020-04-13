@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :authorize
 
   def create
     logged_in_data, messages = UserPerformer.new(user_params).perform
