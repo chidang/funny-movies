@@ -23,7 +23,7 @@ class MovieCreator
   private
 
   def create_movie
-    if youtube_video.available?
+    if youtube_video&.available?
       set_movie_data
       save_movie
     else
@@ -49,5 +49,7 @@ class MovieCreator
 
   def youtube_video
     @video ||= VideoInfo.new(@params[:youtube_url])
+  rescue
+    nil
   end
 end
