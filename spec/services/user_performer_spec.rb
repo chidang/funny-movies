@@ -18,15 +18,15 @@ describe UserPerformer do
 
       context 'when password is wrong' do
         specify do
-          expect(subject.perform).to match_array([{} , {error: 'Wrong password. Please try again.'}])
+          expect(subject.perform).to match_array([{} , {danger: 'Wrong password. Please try again.'}])
         end
       end
 
-      context 'when password is right' do
+      context 'when password is correct' do
         let(:password) { '123456789abc' }
 
         specify do
-          expect(subject.perform).to match_array([{user_email: 'chid@example.com'} , {}])
+          expect(subject.perform).to match_array([{user_email: 'chid@example.com', user_id: user.id} , {}])
         end
       end
     end
@@ -38,8 +38,8 @@ describe UserPerformer do
             subject.perform
           end.to change(User, :count).by(1)
 
-          expect(subject.logged_in_data).to eq ({ user_email: 'chid@example.com' })
-          expect(subject.errors).to eq({})
+          expect(subject.logged_in_data).to eq ({ user_email: 'chid@example.com', user_id: User.last.id })
+          expect(subject.messages).to eq({})
         end
       end
 
@@ -52,7 +52,7 @@ describe UserPerformer do
           end.to change(User, :count).by(0)
 
           expect(subject.logged_in_data).to eq ({ })
-          expect(subject.errors).to eq({error: 'Email can\'t be blank, Email is invalid'})
+          expect(subject.messages).to eq({danger: 'Email can\'t be blank, Email is invalid'})
         end
       end
     end
