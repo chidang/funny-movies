@@ -1,5 +1,4 @@
 class MovieCreator
-  attr_accessor :messages, :success, :movie
 
   YOUTUBE_LINK_FORMAT = /\A.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/i
 
@@ -15,9 +14,9 @@ class MovieCreator
     if @params[:youtube_url].present? && @params[:youtube_url].match(YOUTUBE_LINK_FORMAT)
       create_movie
     else
-      messages[:danger] = 'Please enter Youtube Video URL'
+      @messages[:danger] = 'Please enter Youtube Video URL'
     end
-    [@success, messages]
+    [@success, @messages]
   end
 
   private
@@ -27,23 +26,23 @@ class MovieCreator
       set_movie_data
       save_movie
     else
-      messages[:danger] = 'Video is not available'
+      @messages[:danger] = 'Video is not available'
     end
   end
 
   def set_movie_data
-    movie.user_id = @user_id
-    movie.title = youtube_video.title
-    movie.youtube_video_id = youtube_video.video_id
-    movie.description = youtube_video.description
+    @movie.user_id = @user_id
+    @movie.title = youtube_video.title
+    @movie.youtube_video_id = youtube_video.video_id
+    @movie.description = youtube_video.description
   end
 
   def save_movie
-    if movie.save
+    if @movie.save
       @success = true
-      messages[:success] = 'Movie was successfully created.'
+      @messages[:success] = 'Movie was successfully created.'
     else
-      messages[:danger] = movie.errors.to_a.join(', ')
+      @messages[:danger] = @movie.errors.to_a.join(', ')
     end
   end
 

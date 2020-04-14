@@ -21,8 +21,7 @@ describe MovieCreator do
               subject.perform
           end.to change(Movie, :count).by(1)
 
-          expect(subject.messages).to eq ({success: 'Movie was successfully created.'})
-          expect(subject.success).to eq true
+          expect(subject.perform).to eq ([true, {success: 'Movie was successfully created.'}])
         end
       end
 
