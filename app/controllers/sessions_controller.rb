@@ -2,15 +2,16 @@ class SessionsController < ApplicationController
   skip_before_action :authorize
 
   def create
-    logged_in_data, messages = UserPerformer.new(user_params).perform
-    session.merge!(logged_in_data)
-    flash.merge!(messages)
-    redirect_to root_path
+    status, logged_in_data, messages = UserPerformer.new(user_params).perform
+    if status
+      create_success(logged_in_data)
+    else
+      create_failure(messages)
+    end
   end
 
   def destroy
-    session[:user_email] = nil
-    session[:user_id] = nil
+    session[:user_email] = session[:user_id] = nil
     redirect_to root_path
   end
 
@@ -18,5 +19,17 @@ class SessionsController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password)
+  end
+
+  def create_success(logged_in_data)
+    session.merge!(logged_in_data)
+    redirect_to root_path
+  end
+
+  def create_failure(messages)
+    flash.now[:danger] = messages[:danger]
+    @user = User.new(user_params)
+    @movies = Movie.all
+    render "pages/index"
   end
 end

@@ -18,7 +18,7 @@ describe UserPerformer do
 
       context 'when password is wrong' do
         specify do
-          expect(subject.perform).to match_array([{} , {danger: 'Wrong password. Please try again.'}])
+          expect(subject.perform).to match_array([false, {} , {danger: 'Wrong password. Please try again.'}])
         end
       end
 
@@ -26,33 +26,51 @@ describe UserPerformer do
         let(:password) { '123456789abc' }
 
         specify do
-          expect(subject.perform).to match_array([{user_email: 'chid@example.com', user_id: user.id} , {}])
+          expect(subject.perform).to match_array([true, {user_email: 'chid@example.com', user_id: user.id} , {}])
         end
       end
     end
 
     context 'when user is not existing' do
       context 'and params valid' do
+        let(:expected_data) do
+          [
+            true,
+            {
+              user_email: 'chid@example.com',
+              user_id: User.last.id
+            },
+            {}
+          ]
+        end
+
         specify do
           expect do
             subject.perform
           end.to change(User, :count).by(1)
 
-          expect(subject.logged_in_data).to eq ({ user_email: 'chid@example.com', user_id: User.last.id })
-          expect(subject.messages).to eq({})
+          expect(subject.perform).to eq expected_data
         end
       end
 
       context 'and params is not valid' do
         let(:email) { '' }
+        let(:expected_data) do
+          [
+            false,
+            {},
+            {
+              danger: 'Email can\'t be blank, Email is invalid'
+            }
+          ]
+        end
 
         specify do
           expect do
             subject.perform
           end.to change(User, :count).by(0)
 
-          expect(subject.logged_in_data).to eq ({ })
-          expect(subject.messages).to eq({danger: 'Email can\'t be blank, Email is invalid'})
+          expect(subject.perform).to eq expected_data
         end
       end
     end
