@@ -12,17 +12,32 @@ describe SessionsController, type: :controller do
         password: password
       }
     end
+    let(:status) { false }
 
     before do
       allow_any_instance_of(UserPerformer).to receive(:perform)
-        .and_return([{user_email: email, user_id: user.id}, {}])
+        .and_return([status, {user_email: email, user_id: user.id}, {}])
       post :create, params: { user: user_params }
     end
 
-    specify do
-      expect(controller.session[:user_id]).to eq user.id
-      expect(controller.session[:user_email]).to eq email
-      expect(response).to redirect_to root_path
+    context 'when created unsuccessful' do
+      specify do
+        expect(response).to render_template('pages/index')
+        expect(controller.session[:user_id]).to eq nil
+        expect(controller.session[:user_email]).to eq nil
+        expect(response.response_code).to eq 200
+      end
+    end
+
+    context 'when created successfully' do
+      let(:status) { true }
+
+      specify do
+        expect(controller.session[:user_id]).to eq user.id
+        expect(controller.session[:user_email]).to eq email
+        expect(response).to redirect_to root_path
+        expect(response.response_code).to eq 302
+      end
     end
   end
 
