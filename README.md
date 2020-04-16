@@ -1,24 +1,21 @@
-# README
+# Funny Movies - Chi Dang
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Setup
+  Note: Make sure your host has directory permissions for /var/lib/mysql
 
-Things you may want to cover:
+    docker-compose run app rake db:create RAILS_ENV=production # this takes about 15 minutes the very first time you use docker
+    docker-compose run app rake db:migrate db:seed RAILS_ENV=production
+    docker-compose up -d # or 'docker-compose up' then visit http://localhost:8081
+    docker ps # to verify that all three containers are up and running execute 
 
-* Ruby version
+### Server control
 
-* System dependencies
+    docker-compose up -d # start servers
+    docker-compose restart # restart servers
+    docker-compose down # stop servers
 
-* Configuration
+### Testing
 
-* Database creation
+To run specs:
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    docker-compose run --rm app bundle exec rspec
