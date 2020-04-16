@@ -1,0 +1,43 @@
+version: '2'
+
+volumes:
+  mysql-data:
+    driver: local
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    depends_on:
+      - app
+    ports:
+      - "8081:80"
+  db:
+    volumes:
+      - mysql-data:/var/lib/mysql
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: funny_movies
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    volumes:
+      - ".:/funny_movies"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+    environment:
+      DB_USER: root
+      DB_NAME: funny_movies
+      DB_PASSWORD: password
+      DB_HOST: db
+      SECRET_KEY_BASE: 574e8a6959720dad347b3ffa48ae6e89ca675bfbd83ad34def2822c9ad5943bd0812c579517defcf1dc9ff4480578cc433b3ad965d0495b72a1b7a60895597c9

@@ -12,17 +12,17 @@
 
 ActiveRecord::Schema.define(version: 20200413081240) do
 
-  create_table "movies", force: :cascade do |t|
+  create_table "movies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "description"
+    t.text     "description",      limit: 65535
     t.string   "youtube_video_id"
     t.string   "youtube_url"
     t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
     t.string   "password_digest"
     t.datetime "created_at",      null: false
