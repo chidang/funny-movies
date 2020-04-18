@@ -9,7 +9,7 @@ New to docker first checkout [Getting started with docker](https://docs.docker.c
 * [Docker installed](https://docs.docker.com/docker-for-mac/install/)
 
 **Note:**
-* Make sure your host has directory permissions for /var/lib/mysql
+* Make sure your host has directory `/var/lib/mysql`, and allow docker user has write permission to `/var/lib/mysql`
 * Add `127.0.0.1 funny-movies.local` to your `/etc/hosts` file
 
 ### Setup
