@@ -2,18 +2,22 @@ require 'rails_helper'
 
 describe MovieCreator do
   let!(:user) { create(:user) }
-  let(:params) { { youtube_url: 'https://www.youtube.com/watch?v=x3T-1wJCtFI' } }
+  let(:youtube_url) { 'https://www.youtube.com/watch?v=123456' }
+  let(:params) { { youtube_url: youtube_url } }
 
   subject { described_class.new(params, user.id) }
+
+  let(:video_info){ instance_double(VideoInfo) }
 
   describe '#perform' do
     context 'when Youtube URL present and correct format' do
       context 'and video is available' do
         before do
-          allow_any_instance_of(VideoInfo).to receive(:available?).and_return(true)
-          allow_any_instance_of(VideoInfo).to receive(:title).and_return('Star wars')
-          allow_any_instance_of(VideoInfo).to receive(:description).and_return('Star wars description')
-          allow_any_instance_of(VideoInfo).to receive(:video_id).and_return('123')
+          allow(VideoInfo).to receive(:new).with(youtube_url).and_return(video_info)
+          allow(video_info).to receive(:available?).and_return(true)
+          allow(video_info).to receive(:title).and_return('Star wars')
+          allow(video_info).to receive(:description).and_return('Star wars description')
+          allow(video_info).to receive(:video_id).and_return('123')
         end
 
         specify do
