@@ -1,0 +1,7 @@
+%hr
+%footer.container
+  %p= "© 2019 - #{Date.current.year}, Chi Dang"
+:javascript
+  $( document).ready( function(){
+      $('div.alert').not('.alert-danger').delay(3000).slideUp(300);
+  });
