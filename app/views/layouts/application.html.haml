@@ -1,6 +1,7 @@
 !!!
 %html
   %head
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Funny Movies
     = csrf_meta_tags
@@ -11,3 +12,4 @@
     = render 'layouts/flash'
     %main.container.pb-4
       = yield
+    = render 'layouts/footer'
