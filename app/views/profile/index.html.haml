@@ -1,0 +1,25 @@
+.row
+  .col-md-2 Email
+  .col-md-10= @user.email
+
+- if @movies.count > 0
+  - @movies.each do |movie|
+    .row.mt-4
+      .col-md-5.embed-responsive.embed-responsive-16by9
+        %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{movie.youtube_video_id}?rel=0" }
+      .col-md-7
+        %h4.text-danger
+          - if movie.user_id == session[:user_id]
+            = link_to movie.title, edit_movie_path(movie.id)
+          - else
+            = movie.title
+    .row
+      .col-md-12
+        = link_to 'Change password', edit_password_path(session[:user_id])
+
+        %p= "Shared by: #{movie.user_email}"
+        %p
+          %strong Description
+        %p=movie.description
+- else
+  %p Currently, don't have any movies available.
