@@ -51,6 +51,6 @@ RSpec.describe 'Login / Register AND Logout', type: :feature do
     click_on 'Logout'
     expect(page).to_not have_content('Welcome chid@example.com')
     expect(page).to_not have_content('Logout')
-    expect(page).to have_content('Please Login/Register and Share a Youtube video.')
+    expect(page).to have_content('Currently, don\'t have any movies available.')
   end
 end

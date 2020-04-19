@@ -4,10 +4,16 @@
       .col-md-5.embed-responsive.embed-responsive-16by9
         %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{movie.youtube_video_id}?rel=0" }
       .col-md-7
-        %h4.text-danger= movie.title
+        %h4.text-danger
+          - if movie.user_id == session[:user_id]
+            = link_to movie.title, edit_movie_path(movie.id)
+          - else
+            = movie.title
+
         %p= "Shared by: #{movie.user_email}"
         %p
           %strong Description
         %p=movie.description
+  .mt-4= paginate @movies
 - else
-  %p Currently, don't have any movies available. Please Login/Register and Share a Youtube video.
+  %p Currently, don't have any movies available.

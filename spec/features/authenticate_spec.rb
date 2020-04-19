@@ -16,6 +16,6 @@ RSpec.describe 'Login / Register AND Logout', type: :feature do
   scenario 'Limiting access' do
     visit new_movie_path
     expect(page).to_not have_content('Share a Youtube movie')
-    expect(page).to have_content('Please Login/Register and Share a Youtube video.')
+    expect(page).to have_content('Currently, don\'t have any movies available.')
   end
 end

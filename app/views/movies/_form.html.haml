@@ -1,20 +1,10 @@
 = form_for(movie) do |f|
   - if movie.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(movie.errors.count, "error")
-        prohibited this movie from being saved:
-      %ul
-        - movie.errors.full_messages.each do |message|
-          %li= message
-  %fieldset.scheduler-border
-    %legend.scheduler-border Share a Youtube movie
-    .form-group.row
-      .col-sm-2
-        = f.label :youtube_url, 'Youtube URL'
-      .col-sm-10
-        = f.text_field :youtube_url, class: 'form-control mr-sm-2', placeholder: 'e.g. https://www.youtube.com/watch?v=RRPp-qbKK6E'
-    .form-group.row
-      .col-sm-2
-      .col-sm-10
-        = f.submit 'Share', class: 'btn btn-primary btn-block'
+    .ml-4.mr-4
+      - movie.errors.full_messages.each do |message|
+        %div{ class: "alert alert-danger" }
+          = message
+  - if movie.id.present?
+    = render "edit_fields", movie: movie, f: f
+  - else
+    = render "share_fields", movie: movie, f: f
