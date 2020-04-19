@@ -1,0 +1,25 @@
+.d-flex.justify-content-center
+  .w-75
+    = form_for @user, url: password_path(@user) do |f|
+      - if @user.errors.any?
+        .ml-4.mr-4
+          - @user.errors.full_messages.each do |message|
+            %div{ class: "alert alert-danger" }
+              = message
+      .form-group.row
+        .col-sm-4
+          = f.label :password, 'Password'
+        .col-sm-8
+          = f.password_field :password, class: 'form-control mr-sm-2'
+      .form-group.row
+        .col-sm-4
+          = f.label :password_confirmation, 'Confirm Password'
+        .col-sm-8
+          = f.password_field :password_confirmation, class: 'form-control mr-sm-2'
+      
+      .form-group.row
+        .col-sm-4
+        .col-sm-8
+          = f.submit 'Update', class: 'btn btn-primary btn-block'  
+
+      

@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
   def create_failure(messages)
     flash.now[:danger] = messages[:danger]
     @user = User.new(user_params)
-    @movies = Movie.all
+    @movies = Movie.page(params[:page])
     render "pages/index"
   end
 end
