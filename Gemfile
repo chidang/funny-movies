@@ -40,7 +40,7 @@ gem 'video_info'
 
 # Views
 #------------------------------------------------------------------------------
-gem 'bootstrap', '~> 4.0.0'
+gem 'bootstrap', '~> 4.3.1'
 gem 'haml', '>= 4.0.0'
 gem 'font-awesome-sass'
 
